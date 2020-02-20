@@ -98,7 +98,6 @@
 
         console.log(this.form)
       const respon=await this.$http.post("insertArticle",this.form)
-
         console.log(respon)
 
       if (respon.status===200){

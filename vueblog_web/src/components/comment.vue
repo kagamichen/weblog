@@ -104,6 +104,7 @@
 <script>
   import { get, getRequest, getRequest2, getRequestparams } from '../utils/app'
 
+
   export default {
 
     data () {

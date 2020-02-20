@@ -45,7 +45,9 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+
             <scope>8.0.19</scope>
+
         </dependency>
         <!--        commons-codec是Apache开源组织提供的用于摘要运算、编码解码的包。常见的编码解码工具Base64、MD5、Hex、SHA1、DES等。-->
         <dependency>

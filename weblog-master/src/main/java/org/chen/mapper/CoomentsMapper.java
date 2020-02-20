@@ -8,10 +8,15 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 
+
+
+
 @Mapper
 @Repository
 public interface CoomentsMapper {
 
+
     @Select("select * from comments where aid=#{aid}")
+
     List<Comments> getcomments(Integer aid);
 }

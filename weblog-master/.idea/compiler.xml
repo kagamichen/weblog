@@ -6,16 +6,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="weblog-master" />
+        <module name="weblog" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="weblog-master" target="1.8" />
+      <module name="weblog" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="weblog-master" options="-parameters" />
+      <module name="weblog" options="-parameters" />
     </option>
   </component>
 </project>
