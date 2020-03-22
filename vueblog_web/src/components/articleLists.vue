@@ -7,7 +7,7 @@
       <el-breadcrumb-item>发表列表</el-breadcrumb-item>
     </el-breadcrumb>
     <!--卡片区域-->
-    <el-card class="box-card">
+    <el-card class="box-card body-card" >
       <!--        搜索栏-->
       <el-row :gutter="20">
         <el-col :span="10">
@@ -102,7 +102,7 @@
     methods: {
       // 获取文章列表
       async getArticle () {
-        const { data: res } = await this.$http.get('articleLists',{params:this.queryinfo})
+        const { data: res } = await this.$http.get('article/articleLists',{params:this.queryinfo})
         // const { data: res } = await getRequestparams('articleLists',{params:this.queryinfo})
         // console.log(res)
         console.log(res.list)
@@ -152,7 +152,7 @@ this.getArticle();
     async  deletearticle(id){
         this.id=id;
         // const deletearticle = await this.$http.get("deletearticle",{ params:{ id:this.id } })
-        const deletearticle = await getRequestparams("deletearticle",{  id:this.id  })
+        const deletearticle = await getRequestparams("article/deletearticle",{  id:this.id  })
         if(deletearticle.status===200){
           this.$message.success("删除成功");
           this.getArticle();

@@ -57,14 +57,17 @@ export default {
           params.append("username", this.loginForm.username);
           params.append("password", this.loginForm.password);
           const axiosResponse = await this.$http.post("doLogin", params);
-          console.log(axiosResponse);
-          console.log(axiosResponse.data.msg);
 
           if (axiosResponse.data.status === 200) {
-            window.sessionStorage.setItem("user", axiosResponse.msg);
+            // console.log(axiosResponse);
+            // console.log(axiosResponse.data.msg);
+            // this.$store.commit("INIT_CURRENTHR", axiosResponse.data.msg);
+            // console.log(axiosResponse.data.msg)
+          const  seesionstring= window.sessionStorage.setItem("user",JSON.stringify(axiosResponse.data.msg));
+            // console.log(sessionStorage)
             this.$message.success("登陆成功，跳转中");
             this.$router.push("/home");
-            alert(sessionStorage.getItem("user"));
+            // alert(sessionStorage.getItem("user"));
             return;
           }
         } catch {

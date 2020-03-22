@@ -8,7 +8,7 @@
   </el-breadcrumb>
 
 <!--  卡片区域-->
-  <el-card class="box-card">
+  <el-card class="box-card body-card">
     <!--        添加栏目栏-->
     <el-row :gutter="20">
       <el-col :span="6">
@@ -92,9 +92,13 @@
       //获取栏目所有信息
      async getcolumn (){
 
-       const {data:res}= await getRequest("getcolumn")
+       const {data:res}= await getRequest("column/getcolumn")
         // console.log(res)
-
+       if("403"===res.code){
+         this.$message.error(res.msg)
+         await this.$router.push("/noauthority")
+         return ;
+       }
        for (const re of res) {
          re.updatetime=this.turndate(re.updatetime)
        }
@@ -102,7 +106,7 @@
       },
       //添加栏目
       async addcolumn(){
-        const {data:res}=await getRequest("addcolumn",{ params:{ column:this.inputcolumn } })
+        const {data:res}=await this.$http.get("column/addcolumn",{ params:{ column:this.inputcolumn } })
 
         console.log(res)
         if (res==="添加成功"){
@@ -119,7 +123,7 @@
     async  handleDeletetest(cid){
        console.log(cid)
         this.cid=cid
-    const {data:res} =await getRequest("deletecolumn",{ params:{cid:this.cid}})
+    const {data:res} =await this.$http.get("column/deletecolumn",{ params:{cid:this.cid}})
       if(res==="删除成功"){
         this.$message.success("删除成功")
         this.getcolumn();

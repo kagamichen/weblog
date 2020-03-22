@@ -7,17 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
-public class articleListsController {
+@RequestMapping("/article")
+public class ArticleListsController {
     @Autowired
     private ArticleListsService articleListsService;
 
 
-    @GetMapping("articleLists")
+    @GetMapping("/articleLists")
     public ResponseEntity<PageInfo<article>> getallarticleLists(
             @RequestParam(value = "querykey",required = false) String querykey,
             @RequestParam(value = "pagesize",defaultValue = "1") Integer pagesize,
@@ -30,13 +33,13 @@ public class articleListsController {
        return ResponseEntity.ok(articleList);
     }
 //废弃
-    @GetMapping("getCountArticle")
+    @GetMapping("/getCountArticle")
     public ResponseEntity<Integer> getCountArticle(){
         Integer num= this.articleListsService.getCountArticle();
        return ResponseEntity.ok(num);
     }
 
-    @GetMapping("deletearticle")
+    @GetMapping("/deletearticle")
     public ResponseEntity<Integer> deletearticle(@RequestParam Integer id){
        Integer code= this.articleListsService.deletearticle(id);
        if (code==1){

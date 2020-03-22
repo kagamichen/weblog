@@ -9,7 +9,7 @@
 
 
 <!--白色卡片区域-->
-    <el-card class="box-card">
+    <el-card class="box-card body-card">
 <!--    表单区域-->
     <el-form ref="form" :model="form" label-width="80px">
       <el-row :gutter="30">
@@ -53,7 +53,6 @@
         <button v-on:click="getContentt()" >测试</button>
       </el-form-item>
 
-
     </el-form>
     </el-card>
   </div>
@@ -64,7 +63,6 @@
   import { getRequest, postRequest } from '../utils/app'
   export default {
     components: {
-
       Editor
     },
     data() {
@@ -88,18 +86,16 @@
     methods: {
       //获取所有栏目
      async getcolumn(){
-       const {data:res}= await getRequest("getcolumn")
+       const {data:res}= await getRequest("submit/getcolumn")
         console.log(res);
        this.options=res;
       },
       //上传文章
     async  postarticle(){
         this.getContentt()
-
         console.log(this.form)
-      const respon=await this.$http.post("insertArticle",this.form)
+      const respon=await this.$http.post("submit/insertArticle",this.form)
         console.log(respon)
-
       if (respon.status===200){
         this.$message.success("文章提交成功");
         return ;
@@ -108,7 +104,7 @@
       },
       getContentt(){
         this.form.body= this.$refs.wangE.editorContent
-        alert(this.$refs.wangE.editorContent)
+        // alert(this.$refs.wangE.editorContent)
       }
     }
   }

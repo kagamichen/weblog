@@ -8,7 +8,7 @@
          <el-breadcrumb-item>test1234</el-breadcrumb-item>
        </el-breadcrumb>
 <!--     !&#45;&#45;  卡片区域&ndash;&gt;-->
-     <el-card class="box-card">
+     <el-card class="box-card body-card">
 <!--选择栏目，文章显示对应的评论-->
 
        <el-row :gutter="30">
@@ -127,13 +127,19 @@
     methods:{
       //获得评论
      async getcomment(temps){
+
        console.log(temps)
-      const {data:res}= await getRequestparams("getcomment",{aid:temps})
+      const {data:res}= await getRequestparams("comment/getcomment",{aid:temps})
+       if("403"===res.code){
+         this.$message.error(res.msg)
+         await this.$router.push("/noauthority")
+         return ;
+       }
         // console.log(res)
         this.commenttable=res;
       },
       async getcolumn(){
-       const {data:res}=await getRequest("getcolumn")
+       const {data:res}=await getRequest("submit/getcolumn")
         // console.log(res)
         this.column=res;
       },
@@ -141,7 +147,7 @@
    async getarticleselect(temp){
        console.log(temp)
     // const {data:res}= await get("getarticleselect",{params:{column_id:temp}})
-    const {data:res}= await getRequestparams("getarticleselect",{column_id:temp})
+    const {data:res}= await getRequestparams("comment/getarticleselect",{column_id:temp})
      console.log(res)
      this.title=res
 

@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 //评论相关
 @Controller
+@RequestMapping("/comment")
 public class CommentController {
 
 
@@ -22,7 +24,7 @@ public class CommentController {
      * 获取评论
      * @return
      */
-    @GetMapping("getcomment")
+    @GetMapping("/getcomment")
     public ResponseEntity<List<Comments>> getcomments(
             @RequestParam (value = "aid",required = false)Integer aid
     )
@@ -31,7 +33,7 @@ public class CommentController {
         return ResponseEntity.ok(lists);
     }
 
-    @GetMapping("getarticleselect")
+    @GetMapping("/getarticleselect")
     public ResponseEntity<List<article>> getarticleBycolumnid(
             @RequestParam Integer column_id
     ){
