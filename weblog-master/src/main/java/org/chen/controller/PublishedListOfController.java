@@ -1,8 +1,7 @@
 package org.chen.controller;
 
-import org.chen.bean.article;
+import org.chen.bean.Article;
 import org.chen.bean.article_column;
-import org.chen.mapper.Article_columnMapper;
 import org.chen.service.PublishedListOfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +36,7 @@ public class PublishedListOfController {
      * @return
      */
     @PostMapping("/insertArticle")
-    public ResponseEntity<String> insertArticle(@RequestBody article article){
+    public ResponseEntity<String> insertArticle(@RequestBody Article article){
        // System.out.println(article.toString());
       Integer integer=  this.publishedListOfService.insertArticle(article);
       if (integer==1) {

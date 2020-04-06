@@ -30,7 +30,7 @@ export default {
       //表单登录数据的绑定对象
       loginForm: {
         username: "root",
-        password: "123668"
+        password: "123"
       },
       rules: {
         username: [

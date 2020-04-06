@@ -1,7 +1,7 @@
 <template>
-    <div>
-      权限不足
-    </div>
+    <div class="no">
+
+      <img src="../../assets/no.jpg" /></div>
 </template>
 
 <script>
@@ -11,5 +11,12 @@
 </script>
 
 <style scoped>
-
+.no{
+  width: 50%;
+  height: 50%;
+}
+  img{
+    width: 50%;
+    height: 50%;
+  }
 </style>

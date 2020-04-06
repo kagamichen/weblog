@@ -18,10 +18,10 @@ public interface Article_columnMapper {
 
     @Select("select * from article_column ")
     List<article_column> getAllcolumn();
-
     @Insert("INSERT into article_column(`column`,updatetime) VALUES(#{column},#{date}) ")
     Integer addcolumn(String column, Date date);
-
     @Delete("DELETE FROM article_column WHERE cid=#{cid}")
     Integer deletecolumn(Integer cid);
+    @Delete("DELETE FROM article WHERE column_id=#{cid}")
+    Integer deleteArticleByColumn(Integer cid);
 }

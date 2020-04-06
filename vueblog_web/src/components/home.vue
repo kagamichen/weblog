@@ -10,13 +10,12 @@
       </div>
       <div>
         <el-dropdown>
-          <span class="el-dropdown-link">
+          <span class="el-dropdown-link" style="color:#303133 ">
             {{ user.username}}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>{{ chenname }}</el-dropdown-item>
-            <el-dropdown-item v-on:click="logout">狮子头</el-dropdown-item>
+            <el-dropdown-item>{{ user.realname }}</el-dropdown-item>
             <el-dropdown-item divided @click.native="logout"> 退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -98,13 +97,13 @@
 
     methods: {
       getroutes () {
-        console.log(this.user)
-        console.log(this.$store.state)
+        // console.log(this.user)
+        // console.log(this.$store.state)
       },
      async logout () {
 
         const { data: res } = await getRequest('logout')
-         console.log(res)
+         // console.log(res)
        try{
        if(res.code===200){
          this.$message.success("退出成功，返回登陆页")

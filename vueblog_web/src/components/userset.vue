@@ -10,11 +10,7 @@
    <el-card class="box-card body-card">
      <el-row :gutter="20">
        <el-col :span="10">
-         <div>
-           <el-input  class="input-with-select" placeholder="请输入标题来搜索文章">
-             <el-button  icon="el-icon-search" slot="append"/>
-           </el-input>
-         </div>
+
        </el-col>
      </el-row>
 <!--用户卡片-->

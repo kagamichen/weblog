@@ -48,6 +48,7 @@ public class ColumnController {
     @GetMapping("/deletecolumn")
     public ResponseEntity<String> deletecolumn(@RequestParam Integer cid){
        Integer temp= this.columnservice.deletecolumn(cid);
+
        if (temp==1){
          return   ResponseEntity.ok("删除成功");
        }else {

@@ -49,7 +49,7 @@
       </el-row>
       <el-form-item label="正文">
 <!--        富文本编辑器-->
-        <editor v-model="form.body"  ref="wangE"/>
+        <Editor v-model="form.body"  ref="wangE"/>
         <button v-on:click="getContentt()" >测试</button>
       </el-form-item>
 
@@ -59,12 +59,14 @@
 </template>
 
 <script>
-  import Editor from './other/Editor'
   import { getRequest, postRequest } from '../utils/app'
+  // import wangEditor from "../components/other/Editor"
+import Editor from './other/Editor'
   export default {
     components: {
       Editor
     },
+
     data() {
       return {
         form: {
@@ -75,27 +77,29 @@
         },
         options: [],
         column: '',
-        editorContent: ''
+        editorContent: '',
+
       }
     },
+
     created () {
       //获取所有栏目
       this.getcolumn();
     },
-
     methods: {
+
       //获取所有栏目
      async getcolumn(){
        const {data:res}= await getRequest("submit/getcolumn")
-        console.log(res);
+        // console.log(res);
        this.options=res;
       },
       //上传文章
     async  postarticle(){
-        this.getContentt()
-        console.log(this.form)
+        // console.log(this.form)
+      this.form.body=this.$refs.wangE.getHtml();
       const respon=await this.$http.post("submit/insertArticle",this.form)
-        console.log(respon)
+        // console.log(respon)
       if (respon.status===200){
         this.$message.success("文章提交成功");
         return ;
@@ -103,8 +107,7 @@
       this.$message.error("服务器错误，请稍后再试")
       },
       getContentt(){
-        this.form.body= this.$refs.wangE.editorContent
-        // alert(this.$refs.wangE.editorContent)
+
       }
     }
   }

@@ -18,8 +18,11 @@ public class USerSetService {
     @Autowired
     UserSetMapper userSetMapper;
 
+    /**
+     * 获取所有用户信息
+     * @return
+     */
     public List<Userset> getAllUserSet() {
-
         return this.userSetMapper.getAllUserSet();
     }
 

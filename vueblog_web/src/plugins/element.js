@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import { Button, Message, Form, FormItem, Input, Container, Header, Aside, Main,
-  Dropdown, DropdownItem, DropdownMenu, Menu, MenuItemGroup, MenuItem, Submenu
+  Dropdown, DropdownItem, DropdownMenu, Menu, MenuItemGroup, MenuItem, Submenu,Dialog
   , Col, Breadcrumb, Switch, Checkbox, CheckboxGroup, CheckboxButton, TimePicker, DatePicker, Cascader, Alert,Radio,RadioGroup,
   BreadcrumbItem, Card, Row, Table, TableColumn, Popover, Tag, Pagination, Select, Option, MessageBox }
   from 'element-ui'
 
 Vue.use(Radio)
+Vue.use(Dialog)
 Vue.use(RadioGroup)
 Vue.use(Button)
 Vue.use(Alert)

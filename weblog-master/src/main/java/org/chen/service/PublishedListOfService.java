@@ -1,6 +1,6 @@
 package org.chen.service;
 
-import org.chen.bean.article;
+import org.chen.bean.Article;
 import org.chen.bean.article_column;
 import org.chen.mapper.ArticleListsMapper;
 import org.chen.mapper.Article_columnMapper;
@@ -25,7 +25,7 @@ public class PublishedListOfService {
     }
 
 
-    public Integer insertArticle(article article) {
+    public Integer insertArticle(Article article) {
         article.setCreationtime(new Date());
         Integer integer = this.article.insertArticle
                 (article.getTitle(),article.getCreationtime(),article.getAuthor(),article.getColumn_id(),article.getBody());

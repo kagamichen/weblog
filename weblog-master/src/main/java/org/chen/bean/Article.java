@@ -2,7 +2,7 @@ package org.chen.bean;
 
 import java.util.Date;
 
-public class article {
+public class Article {
     private Integer id;
     private String title;
     private Date creationtime;

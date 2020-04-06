@@ -5,7 +5,7 @@
        <el-breadcrumb separator="/">
          <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
          <el-breadcrumb-item>栏目管理</el-breadcrumb-item>
-         <el-breadcrumb-item>test1234</el-breadcrumb-item>
+         <el-breadcrumb-item>评论列表</el-breadcrumb-item>
        </el-breadcrumb>
 <!--     !&#45;&#45;  卡片区域&ndash;&gt;-->
      <el-card class="box-card body-card">
@@ -38,12 +38,15 @@
            </div>
          </el-col>
 
+
          <el-col :span="6">
            <el-alert
              title="选择相应的栏目及文章的评论"
              type="info">
            </el-alert>
          </el-col>
+
+
        </el-row>
 
 
@@ -86,15 +89,27 @@
            width="120">
            <template slot-scope="scope">
              <el-button
-               @click.native.prevent="deleteRow(scope.$index, tableData)"
+               @click.native.prevent="deleteRow(scope.row.pid)"
                type="text"
                size="small">
-               移除
+              移除
              </el-button>
            </template>
          </el-table-column>
        </el-table>
+<el-row :gutter="30" class="inputComment">
+  <el-col :span="4">
+    <el-input v-model="CommentUser"  placeholder="输入评论用户名" />
+  </el-col>
 
+  <el-col :span="7">
+
+    <el-input v-model="AddComment"  placeholder="添加评论">
+      <el-button  @click="addComment()" icon="el-icon-circle-plus-outline" slot="append"/>
+    </el-input>
+
+  </el-col>
+</el-row>
 
      </el-card>
 
@@ -116,18 +131,20 @@
           article:''
         },
         columntemp:'',
-        titletemp:''
+        titletemp:'',
+        AddComment:'',
+        CommentUser:''
       }
 
     },
     created () {
       this.getcomment();
-      this.getcolumn()
+      this.getcolumn();
+
     },
     methods:{
       //获得评论
      async getcomment(temps){
-
        console.log(temps)
       const {data:res}= await getRequestparams("comment/getcomment",{aid:temps})
        if("403"===res.code){
@@ -135,7 +152,11 @@
          await this.$router.push("/noauthority")
          return ;
        }
-        // console.log(res)
+       console.log(res)
+       for (const re of res) {
+        const time=this.turndate(re.commenttime)
+         re.commenttime=time
+       }
         this.commenttable=res;
       },
       async getcolumn(){
@@ -151,13 +172,51 @@
      console.log(res)
      this.title=res
 
+      },
+    async addComment(){
+       console.log(this.AddComment)
+       console.log(this.titletemp)
+      try {
+      const {data:res} = await this.$http.get('comment/AddComment',{ params:{ comment:this.AddComment,aid:this.titletemp,CommentUser:this.CommentUser} })
+      if("添加成功"==res.msg){
+        this.$message.success(res.msg)
+        this.getcomment()
+      }else {
+        this.$message.error(res.msg)
       }
+      }catch (e) {
+        this.$message.error("服务器错误")
+      }
+    },
+ async deleteRow(pid){
+       console.log(pid)
+
+       try {
+         const {data:res}=await this.$http("comment/deleteComment",{params:{commentId:pid}})
+               if("删除成功"==res.msg){
+                 this.$message.success(res.msg)
+                 this.getcomment()
+               }else {
+                 this.$message.error(res.msg)
+               }
+           }catch (e) {
+         this.$message.error("服务器错误")
+       }
+
+  },
+      turndate (date) {
+        var nowdate = new Date(date).toLocaleDateString()
+        return nowdate
+      },
     }
   }
 </script>
 
 <style scoped>
+.inputComment{
 
+  margin-top: 20px;
+}
 
 
 </style>

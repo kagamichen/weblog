@@ -1,10 +1,7 @@
 package org.chen.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.chen.bean.article;
+import org.apache.ibatis.annotations.*;
+import org.chen.bean.Article;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -14,7 +11,7 @@ import java.util.List;
 @Repository
 public interface ArticleListsMapper {
     @Select("select * from article where title like '%${querykey}%'")
-    List<article> selectallarticle( String querykey);
+    List<Article> selectallarticle(String querykey);
 
 
     @Select("select count(*) from article ")
@@ -32,5 +29,11 @@ public interface ArticleListsMapper {
     String selectallarticlebyid(Integer aid);
 
      @Select("select * from article where Column_id=#{column_id}")
-    List<article> findtitlebyid(Integer column_id);
+    List<Article> findtitlebyid(Integer column_id);
+//    @Select("select * from article where id=#{id} ")
+    @Select("SELECT * FROM article LEFT JOIN article_column ON article.column_id=article_column.cid WHERE article.id=#{id} ")
+    Article getArticleById(Integer id);
+
+    @Update("UPDATE article SET title=#{title},creationtime=#{creationtime},author=#{author},column_id=#{column_id},body=#{body} WHERE id=#{id}")
+    void upArticle(Integer id,String title, Date creationtime, String author, Integer column_id, String body);
 }

@@ -84,10 +84,10 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                         return object;
                     }
                 })
-                .and().formLogin().loginProcessingUrl("/doLogin")//方便后续ajax或者移动端调用登录接口。
-                .usernameParameter("username")
+                .and().formLogin().loginProcessingUrl("/doLogin")//ajax调用登录接口。
+                .usernameParameter("username")//参数
                 .passwordParameter("password")
-                .successHandler(new AuthenticationSuccessHandler() {
+                .successHandler(new AuthenticationSuccessHandler() {//登录成功后返回json
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
                         Object principal = authentication.getPrincipal();
@@ -103,7 +103,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
                         writer.close();
                         logger.info("登陆成功");
                     }
-                }).failureHandler(new AuthenticationFailureHandler() {
+                }).failureHandler(new AuthenticationFailureHandler() {//登录失败返回json
             @Override
             public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
                 response.setContentType("application/json;charset=utf-8");

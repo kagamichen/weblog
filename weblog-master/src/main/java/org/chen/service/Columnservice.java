@@ -4,6 +4,7 @@ import org.chen.bean.article_column;
 import org.chen.mapper.Article_columnMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -25,10 +26,11 @@ public class Columnservice {
           return "错误";
        }
     }
-
+    @Transactional
     public Integer deletecolumn(Integer cid) {
       Integer temp=  this.article_columnMapper.deletecolumn(cid);
-      if (temp==1){
+        Integer temp2=this.article_columnMapper.deleteArticleByColumn(cid);
+      if (temp==1&&temp>0){
           return temp;
       }
       return null;

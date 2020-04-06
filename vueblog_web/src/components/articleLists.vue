@@ -4,7 +4,7 @@
     <el-breadcrumb separator="/">
       <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>文章管理</el-breadcrumb-item>
-      <el-breadcrumb-item>发表列表</el-breadcrumb-item>
+      <el-breadcrumb-item>文章列表</el-breadcrumb-item>
     </el-breadcrumb>
     <!--卡片区域-->
     <el-card class="box-card body-card" >
@@ -70,16 +70,56 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
-
     </el-card>
+
+<!--    修改框-->
+    <el-dialog
+
+      title="文章编辑"
+      :visible.sync="dialogVisible"
+      width="65%"
+      >
+      <el-form ref="info"  :model="ArticleForm" label-width="80px">
+        <el-form-item label="标题" >
+          <el-input v-model="ArticleForm.title" suffix-icon="el-icon-user">{{ArticleForm.title}}</el-input>
+        </el-form-item>
+        <el-form-item  label="作者">
+          <el-input v-model="ArticleForm.author" suffix-icon="el-icon-s-comment" >{{ArticleForm.author}}</el-input>
+        </el-form-item>
+        <el-form-item label="所属栏目">
+          <!--            选择器-->
+          <el-select  v-model="ArticleForm.column_id" class="choose">
+            <el-option
+              v-for="item in columns"
+              :key="item.cid"
+              :label="item.column"
+              :value="item.cid">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="正文">
+          <!--        富文本编辑器-->
+          <editor  ref="editor" ></editor>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="upArticle()">确 定</el-button>
+  </span>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
   import Welcome from './Welcome'
   import { getRequest, getRequestparams } from '../utils/app'
+  import editor from './other/Editor'
+
 
   export default {
+    components: { editor },
     data () {
       return {
         queryinfo: {
@@ -92,14 +132,36 @@
         },
         articlelist: [],
         total: 0,
-        id:''
+        id:'',
+        dialogVisible: false,
+        articleById:'',
+        columns:[],
+        ArticleForm:{
+          title:"",
+          author:"",
+          column_id:"",
+          body:"",
+          column:'',
+        }
       }
     },
     created () {
-      this.getArticle()
-      // this.getCountArticle()
+      this.getArticle();
+      this.getcolumn();
+    },
+    mounted () {
+       // this.close();
     },
     methods: {
+      close(){
+        this.dialogVisible=false;
+      },
+      init(body){
+        this.$refs.editor.setHtml(body);
+      },
+      save(){
+
+      },
       // 获取文章列表
       async getArticle () {
         const { data: res } = await this.$http.get('article/articleLists',{params:this.queryinfo})
@@ -112,14 +174,7 @@
          const newtime = this.turndate(re.creationtime)
           re.creationtime=newtime;
         }
-        // for (const re of res.list) {
-        //   const newdate = this.turndate(re.creationtime)
-        //   re.creationtime = newdate
-        // }
-
         this.articlelist = res.list
-
-
       },
       //获取条数 (废弃,使用分页助手获取条数
       //  async getCountArticle(){
@@ -160,7 +215,6 @@ this.getArticle();
         }else {
           this.$message.error("删除失败，服务器错误？？？")
         }
-
       },
       //弹框确认删除
       deletearticleopen(id) {
@@ -180,7 +234,50 @@ this.getArticle();
             message: '已取消删除'
           });
         });
-      }
+      },
+      async updatearticle(id){
+        this.dialogVisible=true
+        try {
+          const {data:res}=await this.$http.get("article/getArticleById",{ params:{id:id}})
+          if(null!=res){
+            this.ArticleForm=res;
+            this.$refs.editor.setHtml(res.body);
+            console.log(res.body)
+          }
+        }catch (e) {
+        }
+
+          // this.dialogVisible=true;
+      },
+     async upArticle(){
+        try {
+          this.ArticleForm.body=this.$refs.editor.getHtml();
+         const {data:res}=await this.$http.post("article/upArticle" ,this.ArticleForm);
+         if ("修改文章成功"===res.msg){
+           this.$message.success(res.msg);
+           this.dialogVisible=false;
+           this.getArticle();
+           return ;
+         }else {
+           this.$message.error(res.msg)
+         }
+        }catch (e) {
+          this.$message.error("服务器错误")
+        }
+
+        // console.log(this.ArticleForm)
+        // console.log(this.$refs.editor.getHtml())
+        // alert(this.$refs.wangE.editorContent)
+        // console.log(ari)
+      },
+      //获取所有栏目
+      async getcolumn(){
+        const {data:res}= await getRequest("submit/getcolumn")
+        // console.log(res);
+        this.columns=res;
+        console.log(this.columns)
+      },
+
     }
   }
 </script>
